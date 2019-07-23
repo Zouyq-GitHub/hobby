@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyq.mapper.UserDemoMapper">
+
+
+    <!--添加学生方法 -->
+    <insert id="save" parameterType="com.zyq.bean.UserDemo" useGeneratedKeys="true">
+        insert into UserDemo (id, u_name, u_class, u_classnumb, u_sex, u_status, u_roleid)
+        values (#{id}, #{u_name}, #{u_class}, #{u_classnumb}, #{u_sex}, #{u_status}, #{u_roleid});
+    </insert>
+
+    <!--修改学生信息方法-->
+    <update id="update" parameterType="com.zyq.bean.UserDemo" useGeneratedKeys="true">
+        update UserDemo
+        set u_name=#{u_name},
+            u_class=#{u_class},
+            u_ClassNumb=#{u_classnumb},
+            u_sex=#{u_sex}
+        where id = #{id}
+    </update>
+
+    <!--删除学员方法-->
+    <delete id="delete" parameterType="com.zyq.bean.UserDemo">
+        delete
+        from UserDemo
+        where id = #{id}
+    </delete>
+
+    <!--查询学员信息的方法-->
+    <select id="queryStudent" resultType="com.zyq.bean.UserDemo">
+        SELECT *
+        from `userdemo`
+    </select>
+
+    <!--模糊查询学员及班级-->
+    <select id="queryStudentS" resultType="com.zyq.bean.UserDemo">
+        select *
+        from `UserDemo`
+        <where>
+            <if test="u_name != null">and u_name like concat('%',#{u_name},'%')</if>
+            <if test="u_sex != -1">and u_sex like concat('%',#{u_sex},'%')</if>
+            <if test="u_class != null">and u_class like concat('%',#{u_class},'%')</if>
+            <if test="u_classnumb != null">and u_classnumb like concat('%',#{u_classnumb},'%')</if>
+        </where>
+    </select>
+
+</mapper>
